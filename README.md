@@ -1,4 +1,4 @@
-# Dipika Store - Grocery E-Commerce Platform
+# Grocery E-Commerce Platform
 
 A modern e-commerce platform built with Laravel for grocery and retail management.
 
