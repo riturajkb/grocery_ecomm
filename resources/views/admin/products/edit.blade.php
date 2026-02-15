@@ -15,22 +15,34 @@
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
-                    <select name="category" id="category" class="form-control" required>
-                        <option value="vegetables" {{ old('category', $product->category) == 'vegetables' ? 'selected' : '' }}>🥦 Vegetables</option>
-                        <option value="dairy" {{ old('category', $product->category) == 'dairy' ? 'selected' : '' }}>🥛 Dairy
-                        </option>
-                        <option value="grains" {{ old('category', $product->category) == 'grains' ? 'selected' : '' }}>🍚
-                            Grains</option>
-                        <option value="fruits" {{ old('category', $product->category) == 'fruits' ? 'selected' : '' }}>🍎
-                            Fruits</option>
-                        <option value="beverages" {{ old('category', $product->category) == 'beverages' ? 'selected' : '' }}>
-                            🧃 Beverages</option>
-                        <option value="snacks" {{ old('category', $product->category) == 'snacks' ? 'selected' : '' }}>🍪
-                            Snacks</option>
-                        <option value="other" {{ old('category', $product->category) == 'other' ? 'selected' : '' }}>📦 Other
-                        </option>
+                    <select name="category" id="category" class="form-control" required onchange="toggleNewCategory(this)">
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat }}" {{ old('category', $product->category) == $cat ? 'selected' : '' }}>
+                                {{ ucfirst($cat) }}
+                            </option>
+                        @endforeach
+                        <option value="new">+ Add New Category</option>
                     </select>
                 </div>
+                <div class="mb-3" id="new_category_div" style="display: none;">
+                    <label for="new_category" class="form-label">New Category Name</label>
+                    <input type="text" name="new_category" id="new_category" class="form-control"
+                        placeholder="Enter new category name">
+                </div>
+
+                <script>
+                    function toggleNewCategory(select) {
+                        const newCatDiv = document.getElementById('new_category_div');
+                        const newCatInput = document.getElementById('new_category');
+                        if (select.value === 'new') {
+                            newCatDiv.style.display = 'block';
+                            newCatInput.setAttribute('required', 'required');
+                        } else {
+                            newCatDiv.style.display = 'none';
+                            newCatInput.removeAttribute('required');
+                        }
+                    }
+                </script>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea name="description" id="description"

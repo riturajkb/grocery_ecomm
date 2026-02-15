@@ -10,49 +10,31 @@
             </p>
         </div>
 
-        <!-- Quick Filter Chips -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <button @click="setFilter('all')" :class="activeFilter === 'all' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'all' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🛒</span> All Products
-            </button>
-            <button @click="setFilter('vegetables')"
-                :class="activeFilter === 'vegetables' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'vegetables' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🥦</span> Vegetables
-            </button>
-            <button @click="setFilter('dairy')"
-                :class="activeFilter === 'dairy' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'dairy' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🥛</span> Dairy
-            </button>
-            <button @click="setFilter('grains')"
-                :class="activeFilter === 'grains' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'grains' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🍚</span> Grains
-            </button>
-            <button @click="setFilter('fruits')"
-                :class="activeFilter === 'fruits' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'fruits' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🍎</span> Fruits
-            </button>
-            <button @click="setFilter('beverages')"
-                :class="activeFilter === 'beverages' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'beverages' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🧃</span> Beverages
-            </button>
-            <button @click="setFilter('snacks')"
-                :class="activeFilter === 'snacks' ? 'ring-2 ring-offset-2' : 'hover:shadow-md'"
-                class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2"
-                :style="activeFilter === 'snacks' ? 'background-color: #2D6A4F; color: white; ring-color: #2D6A4F;' : 'background-color: white; color: #475569; border: 1px solid #e5e7eb;'">
-                <span>🍪</span> Snacks
-            </button>
+        <!-- Dynamic Category Filter Dropdown -->
+        <div class="flex justify-center mb-12">
+            <div class="w-full max-w-sm">
+                <label for="category-filter"
+                    class="block text-sm font-semibold text-gray-700 mb-3 text-center uppercase tracking-wider">
+                    Browse by Category
+                </label>
+                <div class="relative group">
+                    <select id="category-filter" @change="setFilter($event.target.value)"
+                        class="appearance-none block w-full pl-6 pr-12 py-4 text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all bg-white text-gray-700 font-medium cursor-pointer hover:border-[#2D6A4F]/50">
+                        <option value="all">View All Products</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category }}">{{ ucfirst($category) }}</option>
+                        @endforeach
+                    </select>
+                    <div
+                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-[#2D6A4F] transition-colors">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Results Count -->
@@ -63,8 +45,9 @@
                     in <span class="font-semibold capitalize" style="color: #2D6A4F;" x-text="activeFilter"></span>
                 </span>
             </p>
-            <button x-show="activeFilter !== 'all'" @click="setFilter('all')" class="text-sm font-medium hover:underline"
-                style="color: #2D6A4F;">
+            <button x-show="activeFilter !== 'all'"
+                @click="setFilter('all'); document.getElementById('category-filter').value = 'all'"
+                class="text-sm font-medium hover:underline" style="color: #2D6A4F;">
                 Clear filter
             </button>
         </div>
@@ -140,17 +123,17 @@
             </template>
         </div>
 
-    <!-- No Results -->
-    <div x-show="filteredProducts.length === 0" class="text-center py-16">
-        <div class="text-6xl mb-4">🔍</div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">No products found</h3>
-        <p class="text-gray-500 mb-4">Try selecting a different category</p>
-        <button @click="setFilter('all')"
-            class="px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90"
-            style="background-color: #2D6A4F;">
-            View All Products
-        </button>
-    </div>
+        <!-- No Results -->
+        <div x-show="filteredProducts.length === 0" class="text-center py-16">
+            <div class="text-6xl mb-4">🔍</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">No products found</h3>
+            <p class="text-gray-500 mb-4">Try selecting a different category</p>
+            <button @click="setFilter('all'); document.getElementById('category-filter').value = 'all'"
+                class="px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90"
+                style="background-color: #2D6A4F;">
+                View All Products
+            </button>
+        </div>
     </div>
 
     <script>

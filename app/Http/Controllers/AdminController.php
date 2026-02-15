@@ -49,15 +49,29 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        $products = Product::all();
+        $query = Product::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->latest()->get();
         return view('admin.products.index', compact('products'));
     }
 
     public function createProduct()
     {
-        return view('admin.products.create');
+        $categories = Product::distinct()->pluck('category')->toArray();
+        $defaultCategories = ['vegetables', 'dairy', 'grains', 'fruits', 'beverages', 'snacks', 'other'];
+        $categories = array_unique(array_merge($defaultCategories, $categories));
+        return view('admin.products.create', compact('categories'));
     }
 
     public function storeProduct(Request $request)
@@ -70,7 +84,14 @@ class AdminController extends Controller
 
         $product = new Product();
         $product->name = $request->name;
-        $product->category = $request->category ?? 'other';
+
+        // Handle new category logic
+        if ($request->category === 'new' && $request->new_category) {
+            $product->category = $request->new_category;
+        } else {
+            $product->category = $request->category ?? 'other';
+        }
+
         $product->description = $request->description;
         $product->price = $request->price;
         $product->stock = $request->stock ?? 0;
@@ -88,7 +109,10 @@ class AdminController extends Controller
     public function editProduct($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        $categories = Product::distinct()->pluck('category')->toArray();
+        $defaultCategories = ['vegetables', 'dairy', 'grains', 'fruits', 'beverages', 'snacks', 'other'];
+        $categories = array_unique(array_merge($defaultCategories, $categories));
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function updateProduct(Request $request, $id)
@@ -101,7 +125,14 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
         $product->name = $request->name;
-        $product->category = $request->category;
+
+        // Handle new category logic
+        if ($request->category === 'new' && $request->new_category) {
+            $product->category = $request->new_category;
+        } else {
+            $product->category = $request->category;
+        }
+
         $product->description = $request->description;
         $product->price = $request->price;
         $product->stock = $request->stock ?? 0;

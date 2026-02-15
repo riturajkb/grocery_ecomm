@@ -22,7 +22,9 @@ class HomeController extends Controller
         }
 
         $products = $query->get();
-        return view('home', compact('products'));
+        $categories = Product::distinct()->pluck('category')->toArray();
+
+        return view('home', compact('products', 'categories'));
     }
 
     public function show($id)
