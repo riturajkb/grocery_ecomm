@@ -31,14 +31,17 @@
                                 @endif
                             </td>
                             <td>{{ $product->name }}</td>
-                            <td>${{ number_format($product->price, 2) }}</td>
+                            <td>₹{{ number_format($product->price) }}</td>
                             <td>{{ $product->stock }}</td>
                             <td>
-                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                <form action="{{ route('admin.products.delete', $product->id) }}" method="POST" class="d-inline">
+                                <a href="{{ route('admin.products.edit', $product->id) }}"
+                                    class="btn btn-primary btn-sm">Edit</a>
+                                <form action="{{ route('admin.products.delete', $product->id) }}" method="POST"
+                                    class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure?')">Delete</button>
                                 </form>
                             </td>
                         </tr>

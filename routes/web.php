@@ -28,6 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
         Route::get('/orders/{id}', [AdminController::class, 'showOrder'])->name('orders.show');
         Route::put('/orders/{id}', [AdminController::class, 'updateOrder'])->name('orders.update');
+        Route::get('/orders/{id}/invoice', [AdminController::class, 'generateInvoice'])->name('orders.invoice');
     });
 });
 

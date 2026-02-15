@@ -43,6 +43,7 @@
                                 <td>{{ $order->created_at->format('d M Y, h:i A') }}</td>
                                 <td>
                                     <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-primary">View</a>
+                                    <a href="{{ route('admin.orders.invoice', $order->id) }}" class="btn btn-sm btn-info" style="background-color: #17a2b8; color: white;">PDF</a>
                                     <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('PUT')

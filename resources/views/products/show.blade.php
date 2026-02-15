@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-6">
             <h1>{{ $product->name }}</h1>
-            <h3 class="text-muted">₹{{ $product->price }}</h3>
+            <h3 class="text-muted">₹{{ number_format($product->price) }}</h3>
             <p class="mt-3">{{ $product->description }}</p>
 
             <p><strong>Stock:</strong> {{ $product->stock > 0 ? $product->stock . ' available' : 'Out of Stock' }}</p>

@@ -3,8 +3,12 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Order #{{ $order->id }}</h1>
-        <a href="{{ route('admin.orders') }}" class="btn btn-secondary" style="background-color: #6c757d;">← Back to
-            Orders</a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.orders.invoice', $order->id) }}" class="btn btn-success"
+                style="background-color: #2D6A4F; color: white;">Download Invoice</a>
+            <a href="{{ route('admin.orders') }}" class="btn btn-secondary" style="background-color: #6c757d;">← Back to
+                Orders</a>
+        </div>
     </div>
 
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">

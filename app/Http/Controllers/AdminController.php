@@ -142,4 +142,11 @@ class AdminController extends Controller
         $order->save();
         return back()->with('success', 'Order status updated');
     }
+
+    public function generateInvoice($id)
+    {
+        $order = Order::with('items.product')->findOrFail($id);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.orders.invoice', compact('order'));
+        return $pdf->download('invoice-' . $order->id . '.pdf');
+    }
 }

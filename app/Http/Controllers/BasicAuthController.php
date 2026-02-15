@@ -23,9 +23,7 @@ class BasicAuthController extends Controller
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            if (Auth::user()->is_admin) {
-                return redirect()->intended('admin');
-            }
+            // Always redirect to home page, admins can access admin panel via navigation
             return redirect()->intended('/');
         }
 

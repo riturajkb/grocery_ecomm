@@ -292,6 +292,17 @@
             <a href="{{ route('admin.products.create') }}" class="nav-item add-product-btn">
                 <span>+ Add Product</span>
             </a>
+
+            <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="{{ route('home') }}" class="nav-item" style="color: #94a3b8;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Back to Store</span>
+                </a>
+            </div>
         </nav>
     </aside>
 
